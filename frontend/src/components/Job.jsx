@@ -18,9 +18,9 @@ function Job({ job }) {
     <div className="p-5 rounded-md shadow-xl bg-white border border-gray-200">
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-500 ">
-          {daysAgoFunction(job.createdAt) == 0
+          {daysAgoFunction(job?.createdAt) == 0
             ? "Today"
-            : `${daysAgoFunction(job.createdAt)} Days Ago`}
+            : `${daysAgoFunction(job?.createdAt)} Days Ago`}
         </p>
         <Button variant="outline" className="rounded-full" size="icon">
           <Bookmark />
@@ -29,7 +29,7 @@ function Job({ job }) {
       <div className="flex items-center gap-2 my-2">
         <Button variant="outline">
           <Avatar>
-            <AvatarImage src="https://tse1.mm.bing.net/th/id/OIP.4rZ4ZPxFnT6vMCad7bnPugHaHa?pid=Api&P=0&h=220" />
+            <AvatarImage src={job?.company?.logo} />
           </Avatar>
         </Button>
         <div>
