@@ -18,6 +18,10 @@ const companySlice = createSlice({
     },
   },
 });
-export const { setSingleCompany, setCompanies, setSearchCompanyByText } =
-  companySlice.actions;
+export const {
+  setSingleCompany,
+  setCompanies,
+  setSearchCompanyByText,
+  setSearchJobsByText,
+} = companySlice.actions;
 export default companySlice.reducer;

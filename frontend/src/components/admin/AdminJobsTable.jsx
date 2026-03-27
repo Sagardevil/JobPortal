@@ -13,24 +13,20 @@ import {
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Edit2, MoreHorizontal } from "lucide-react";
+import { Edit2, Eye, MoreHorizontal } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function AdminJobsTable() {
   const navigate = useNavigate();
   const { allAdminJobs } = useSelector((store) => store.job);
-  const { companies, searchJobByText } = useSelector(
-    (store) => store?.company ?? [],
-  );
+  const { searchJobByText } = useSelector((store) => store?.job);
   const [filteredJobs, setFilteredJobs] = useState(allAdminJobs);
   useEffect(() => {
-    const filteredJobs =
-      allAdminJobs.length >= 0 &&
-      allAdminJobs.filter((job) => {
-        if (!searchJobByText) return true;
-        return job?.name?.toLowerCase().includes(searchJobByText.toLowerCase());
-      });
+    const filteredJobs = allAdminJobs.filter((job) => {
+      if (!searchJobByText) return true;
+      return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase());
+    });
     setFilteredJobs(filteredJobs);
   }, [allAdminJobs, searchJobByText]);
 
@@ -71,12 +67,21 @@ function AdminJobsTable() {
                     </PopoverTrigger>
 
                     <PopoverContent className="w-32">
-                      <div className="flex items-center gap-2 w-fit cursor-pointer">
-                        <Edit2
-                          className="w-4"
-                          onClick={() => navigate(`/admin/jobs/${job._id}`)}
-                        />
+                      <div
+                        className="flex items-center gap-2 w-fit cursor-pointer"
+                        onClick={() => navigate(`/admin/jobs/${job._id}`)}
+                      >
+                        <Edit2 className="w-4" />
                         <span>Edit</span>
+                      </div>
+                      <div
+                        className="flex items-center w-fit gap-2 cursor-pointer mt-2"
+                        onClick={() =>
+                          navigate(`/admin/jobs/${job._id}/applicants`)
+                        }
+                      >
+                        <Eye className="w-4" />
+                        <span>Applicants</span>
                       </div>
                     </PopoverContent>
                   </Popover>
