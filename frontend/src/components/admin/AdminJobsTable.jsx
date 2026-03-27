@@ -1,6 +1,5 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { COMPANY_API_END_POINT } from "../../utils/constant";
 import {
   Table,
   TableBody,
@@ -10,30 +9,35 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Edit2, Eye, MoreHorizontal } from "lucide-react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function AdminJobsTable() {
   const navigate = useNavigate();
-  const { allAdminJobs } = useSelector((store) => store.job);
-  const { searchJobByText } = useSelector((store) => store?.job);
-  const [filteredJobs, setFilteredJobs] = useState(allAdminJobs);
+
+  const { allAdminJobs, searchJobByText } = useSelector((store) => store.job);
+
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
   useEffect(() => {
-    const filteredJobs = allAdminJobs.filter((job) => {
+    if (!allAdminJobs) return;
+
+    const filtered = allAdminJobs.filter((job) => {
       if (!searchJobByText) return true;
-      return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase());
+
+      return job?.title
+        ?.toLowerCase()
+        .includes(searchJobByText.toLowerCase());
     });
-    setFilteredJobs(filteredJobs);
+
+    setFilteredJobs(filtered);
   }, [allAdminJobs, searchJobByText]);
 
   return (
     <div>
       <Table>
-        <TableCaption>A List of your recent registered companies</TableCaption>
+        <TableCaption>A List of your recent registered jobs</TableCaption>
 
         <TableHeader>
           <TableRow>
@@ -74,6 +78,7 @@ function AdminJobsTable() {
                         <Edit2 className="w-4" />
                         <span>Edit</span>
                       </div>
+
                       <div
                         className="flex items-center w-fit gap-2 cursor-pointer mt-2"
                         onClick={() =>

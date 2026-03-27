@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../shared/Navbar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { setUser } from "../../redux/authSlice";
 
 function Login() {
+  const {user}=useSelector(state=>state.auth);
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
   const navigate = useNavigate();
@@ -56,6 +57,11 @@ function Login() {
       dispatch(setLoading(false));
     }
   };
+  useEffect(()=>{
+    if(user){
+      navigate("/");
+    }
+  },[])
   return (
     <div>
       <Navbar />
