@@ -1,6 +1,5 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { COMPANY_API_END_POINT } from "../../utils/constant";
 import {
   Table,
   TableBody,
@@ -20,12 +19,12 @@ import { useNavigate } from "react-router-dom";
 function CompaniesTable() {
   const navigate = useNavigate();
   const { companies, searchCompanyByText } = useSelector(
-    (store) => store?.company ?? [],
-  );
+  (store) => store.company
+);
   const [filteredCompany, setFilteredCompany] = useState(companies);
   useEffect(() => {
     const filteredCompany =
-      companies.length >= 0 &&
+      companies?.length > 0 &&
       companies.filter((company) => {
         if (!searchCompanyByText) return true;
         return company?.name
@@ -50,14 +49,14 @@ function CompaniesTable() {
         </TableHeader>
 
         <TableBody>
-          {filteredCompany.length <= 0 ? (
+          {filteredCompany?.length <= 0 ? (
             <TableRow>
               <TableCell colSpan={4} className="text-center">
                 You haven't registered any companies yet
               </TableCell>
             </TableRow>
           ) : (
-            filteredCompany.map((company) => (
+            filteredCompany?.map((company) => (
               <TableRow key={company._id}>
                 <TableCell>
                   <Avatar>

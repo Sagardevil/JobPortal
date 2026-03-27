@@ -94,7 +94,7 @@ function JobDescription() {
           <div>
             <h1 className="font-bold text-xl">
               {singleJob?.title}
-              {user?._id}
+              
             </h1>
             <div className="flex items-center gap-2 mt-4">
               <Badge className="text-blue-700 front-bold " variant="ghost">

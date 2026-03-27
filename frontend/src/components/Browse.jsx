@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./shared/Navbar";
 import Job from "./Job";
-const randomJobs = [1, 2, 3];
-
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchQuery } from "../redux/jobSlice";
+import useGetAllJobs from "./hooks/useGetAllJobs";
+import {motion} from "framer-motion";
 function Browse() {
+  useGetAllJobs();
+  const dispatch=useDispatch();
+  const {allJobs}=useSelector((state)=>state.job);
+  useEffect(()=>{
+    return ()=>{
+      dispatch(setSearchQuery(""));
+    } 
+  },[]
+)
   return (
     <div>
       <Navbar />
-      <div className="max-w-7xl mx-auto my-10">
+      <motion.div className="max-w-7xl mx-auto my-10"
+      initial={{opacity:0,x:100}}
+      animate={{opacity:1,x:0}}
+      transition={{duration:0.5}}
+      >
         <h1 className="font-bold text-xl my-10">
-          Search Results ({randomJobs.length})
+          Search Results ({allJobs?.length})
         </h1>
         <div className="grid grid-cols-3 gap-4">
-          {randomJobs.map((item, index) => {
-            return <Job />;
+          {allJobs?.map((job) => {
+            return <Job key={job._id} job={job} />;
           })}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
